@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSelector } from '../../services/store';
-import { userSelector, isAuthCheckedSelector } from '@slices';
+import {
+  userSelector,
+  isAuthCheckedSelector,
+  isLoadingSelector
+} from '@slices';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Preloader } from '@ui';
 
@@ -15,17 +19,18 @@ const ProtectedRoute = ({
 }: TProtectedRouteProps): React.JSX.Element => {
   const user = useSelector(userSelector);
   const isAuthChecked = useSelector(isAuthCheckedSelector);
+  const isLoading = useSelector(isLoadingSelector);
   const location = useLocation();
 
-  if (!isAuthChecked) {
+  if (!isAuthChecked && isLoading) {
     return <Preloader />;
   }
 
-  if (!onlyUnAuth && !user) {
+  if (!onlyUnAuth && !user && !isLoading) {
     return <Navigate replace to='/login' state={{ from: location }} />;
   }
 
-  if (onlyUnAuth && user) {
+  if (onlyUnAuth && user && !isLoading) {
     const { from } = location.state ?? { from: { pathname: '/' } };
     return <Navigate replace to={from} />;
   }

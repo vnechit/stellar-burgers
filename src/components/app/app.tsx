@@ -23,7 +23,7 @@ import {
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useDispatch } from '../../services/store';
-import { getIngridientsThunk } from '@slices';
+import { getIngridientsThunk, tryGetUser } from '@slices';
 import { useEffect } from 'react';
 
 const App = () => {
@@ -34,6 +34,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngridientsThunk());
+    dispatch(tryGetUser());
   }, []);
 
   return (
