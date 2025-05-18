@@ -61,6 +61,11 @@ export const tryLogOutUser = createAsyncThunk('user/logout', async () =>
 
 export const tryGetUser = createAsyncThunk('user/getUser', getUserApi);
 
+export const tryUpdateUser = createAsyncThunk(
+  'user/update',
+  async (user: Partial<TRegisterData>) => updateUserApi(user)
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -126,6 +131,18 @@ const userSlice = createSlice({
       .addCase(tryLogOutUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = null;
+      })
+      // update user
+      .addCase(tryUpdateUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(tryUpdateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message!;
+      })
+      .addCase(tryUpdateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
       });
   }
 });

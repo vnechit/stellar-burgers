@@ -18,8 +18,8 @@ const ProtectedRoute = ({
   component
 }: TProtectedRouteProps): React.JSX.Element => {
   const user = useSelector(userSelector);
-  const isAuthChecked = useSelector(isAuthCheckedSelector);
   const isLoading = useSelector(isLoadingSelector);
+  const isAuthChecked = useSelector(isAuthCheckedSelector);
   const location = useLocation();
 
   if (!isAuthChecked && isLoading) {
