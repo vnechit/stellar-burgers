@@ -10,8 +10,7 @@ import {
   updateUserApi,
   logoutApi,
   TLoginData,
-  TRegisterData,
-  refreshToken
+  TRegisterData
 } from '@api';
 import { deleteCookie, setCookie } from '../../utils/cookie';
 
@@ -53,9 +52,11 @@ export const tryRegisterUser = createAsyncThunk(
     registerUserApi({ email, name, password }).then(setTokens)
 );
 
-export const tryLogOutUser = createAsyncThunk(
-  'user/logout',
-  async logoutApi
+export const tryLogOutUser = createAsyncThunk('user/logout', async () =>
+  logoutApi().then(() => {
+    deleteCookie('accessToken');
+    localStorage.removeItem('refreshToken');
+  })
 );
 
 export const tryGetUser = createAsyncThunk('user/getUser', getUserApi);
@@ -71,6 +72,7 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      // login
       .addCase(tryLogInUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -83,6 +85,7 @@ const userSlice = createSlice({
         state.isAuthChecked = true;
         state.user = action.payload;
       })
+      // register
       .addCase(tryRegisterUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -95,6 +98,7 @@ const userSlice = createSlice({
         state.isAuthChecked = true;
         state.user = action.payload;
       })
+      // get user
       .addCase(tryGetUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -109,6 +113,19 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isAuthChecked = true;
         state.user = action.payload.user;
+      })
+      // logout
+      .addCase(tryLogOutUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(tryLogOutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message!;
+      })
+      .addCase(tryLogOutUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
       });
   }
 });
