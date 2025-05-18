@@ -1,11 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TUser } from '@utils-types';
+import { TOrder, TUser } from '@utils-types';
 import {
   getOrdersApi,
   registerUserApi,
   loginUserApi,
-  forgotPasswordApi,
-  resetPasswordApi,
   getUserApi,
   updateUserApi,
   logoutApi,
@@ -19,13 +17,15 @@ interface IUserState {
   error: string | null;
   user: TUser | null;
   isAuthChecked: boolean;
+  orders: TOrder[] | null;
 }
 
 const initialState: IUserState = {
   isLoading: false,
   error: null,
   user: null,
-  isAuthChecked: true
+  isAuthChecked: true,
+  orders: null
 };
 
 type TSignResponse = {
@@ -66,13 +66,18 @@ export const tryUpdateUser = createAsyncThunk(
   async (user: Partial<TRegisterData>) => updateUserApi(user)
 );
 
+export const getUserOrders = createAsyncThunk('users/orders', async () =>
+  getOrdersApi()
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   selectors: {
     userSelector: (state) => state.user,
     isAuthCheckedSelector: (state) => state.isAuthChecked,
-    isLoadingSelector: (state) => state.isLoading
+    isLoadingSelector: (state) => state.isLoading,
+    userOrdersSelector: (state) => state.orders
   },
   reducers: {},
   extraReducers(builder) {
@@ -143,10 +148,26 @@ const userSlice = createSlice({
       .addCase(tryUpdateUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
+      })
+      // get orders
+      .addCase(getUserOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message!;
+      })
+      .addCase(getUserOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.orders = action.payload;
       });
   }
 });
 
-export const { userSelector, isAuthCheckedSelector, isLoadingSelector } =
-  userSlice.selectors;
+export const {
+  userSelector,
+  isAuthCheckedSelector,
+  isLoadingSelector,
+  userOrdersSelector
+} = userSlice.selectors;
 export default userSlice.reducer;
