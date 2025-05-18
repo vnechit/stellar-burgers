@@ -12,7 +12,14 @@ import {
 import '../../index.css';
 import styles from './app.module.css';
 
-import { AppHeader, OnlyUnAuth, OnlyAuth } from '@components';
+import {
+  AppHeader,
+  OnlyUnAuth,
+  OnlyAuth,
+  OrderInfo,
+  IngredientDetails,
+  Modal
+} from '@components';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useDispatch } from '../../services/store';
@@ -21,8 +28,9 @@ import { useEffect } from 'react';
 
 const App = () => {
   const dispatch = useDispatch();
-  // const location = useLocation();
-  // const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const backgroundLocation = location.state?.background;
 
   useEffect(() => {
     dispatch(getIngridientsThunk());
@@ -34,7 +42,9 @@ const App = () => {
       <Routes>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
         <Route
           path='/register'
@@ -48,14 +58,46 @@ const App = () => {
           path='/reset-password'
           element={<OnlyUnAuth component={<ResetPassword />} />}
         />
-        {/* объединить в один родительский роут */}
-        <Route path='/profile' element={<OnlyAuth component={<Profile />} />} />
-        <Route
-          path='/profile/orders'
-          element={<OnlyUnAuth component={<ProfileOrders />} />}
-        />
-        {/* /объеденить в род роут */}
+        <Route path='/profile'>
+          <Route index element={<OnlyAuth component={<Profile />} />} />
+          <Route
+            path='orders'
+            element={<OnlyUnAuth component={<ProfileOrders />} />}
+          />
+          <Route
+            path='orders/:number'
+            element={<OnlyAuth component={<OrderInfo />} />}
+          />
+        </Route>
       </Routes>
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title={'Информация о заказе'} onClose={() => navigate(-1)}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title={'Детали ингредиента'} onClose={() => navigate(-1)}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <Modal title={'Информация о заказе'} onClose={() => navigate(-1)}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };
