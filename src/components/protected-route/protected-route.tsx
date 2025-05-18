@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from '../../services/store';
-// import { getIsAuthChecked, getUser } from '../services/user/slice.ts';
+import { userSelector, isAuthCheckedSelector } from '@slices';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Preloader } from '@ui';
 
@@ -13,10 +13,8 @@ const ProtectedRoute = ({
   onlyUnAuth = false,
   component
 }: TProtectedRouteProps): React.JSX.Element => {
-  // const user = useSelector(getUser);
-  const user = {};
-  // const isAuthChecked = useSelector(getIsAuthChecked);
-  const isAuthChecked = true;
+  const user = useSelector(userSelector);
+  const isAuthChecked = useSelector(isAuthCheckedSelector);
   const location = useLocation();
 
   if (!isAuthChecked) {

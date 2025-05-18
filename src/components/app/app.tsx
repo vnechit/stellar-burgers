@@ -62,7 +62,7 @@ const App = () => {
           <Route index element={<OnlyAuth component={<Profile />} />} />
           <Route
             path='orders'
-            element={<OnlyUnAuth component={<ProfileOrders />} />}
+            element={<OnlyAuth component={<ProfileOrders />} />}
           />
           <Route
             path='orders/:number'
