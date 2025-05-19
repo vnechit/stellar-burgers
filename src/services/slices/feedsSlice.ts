@@ -15,7 +15,7 @@ const initialState: IFeedsState & TOrdersData = {
   error: null
 };
 
-export const getFeedsThunk = createAsyncThunk('feeds/getFeeds', async () =>
+export const getFeeds = createAsyncThunk('feeds/getFeeds', async () =>
   getFeedsApi()
 );
 
@@ -31,14 +31,14 @@ const feedsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getFeedsThunk.pending, (state) => {
+      .addCase(getFeeds.pending, (state) => {
         state.isFeedsLoading = true;
       })
-      .addCase(getFeedsThunk.rejected, (state, action) => {
+      .addCase(getFeeds.rejected, (state, action) => {
         state.isFeedsLoading = false;
         state.error = action.error.message!;
       })
-      .addCase(getFeedsThunk.fulfilled, (state, action) => {
+      .addCase(getFeeds.fulfilled, (state, action) => {
         state.isFeedsLoading = false;
         state.orders = action.payload.orders;
         state.total = action.payload.total;

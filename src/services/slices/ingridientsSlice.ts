@@ -14,7 +14,7 @@ const initialState: IIngridientState = {
   error: null
 };
 
-export const getIngridientsThunk = createAsyncThunk(
+export const getIngridients = createAsyncThunk(
   'ingredients/getIngredients',
   async () => getIngredientsApi()
 );
@@ -29,14 +29,14 @@ const ingridientsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getIngridientsThunk.pending, (state) => {
+      .addCase(getIngridients.pending, (state) => {
         state.isIngridientsLoading = true;
       })
-      .addCase(getIngridientsThunk.rejected, (state, action) => {
+      .addCase(getIngridients.rejected, (state, action) => {
         state.isIngridientsLoading = false;
         state.error = action.error.message!;
       })
-      .addCase(getIngridientsThunk.fulfilled, (state, action) => {
+      .addCase(getIngridients.fulfilled, (state, action) => {
         state.isIngridientsLoading = false;
         state.ingridients = action.payload;
       });

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from '../../services/store';
 import { userSelector, tryUpdateUser } from '@slices';
 
 export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
 

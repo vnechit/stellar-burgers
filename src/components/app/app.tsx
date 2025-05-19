@@ -23,7 +23,7 @@ import {
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useDispatch } from '../../services/store';
-import { getIngridientsThunk, tryGetUser } from '@slices';
+import { getIngridients, tryGetUser } from '@slices';
 import { useEffect } from 'react';
 
 const App = () => {
@@ -33,14 +33,14 @@ const App = () => {
   const backgroundLocation = location.state?.background;
 
   useEffect(() => {
-    dispatch(getIngridientsThunk());
+    dispatch(getIngridients());
     dispatch(tryGetUser());
   }, []);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={backgroundLocation}>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
