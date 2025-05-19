@@ -13,6 +13,11 @@ const initialState: IConstructorState = {
   ingridients: []
 };
 
+type TSwapProps = {
+  index: number;
+  direction: 'UP' | 'DOWN';
+};
+
 const constructorSlice = createSlice({
   name: 'burgerConstructor',
   initialState,
@@ -36,12 +41,25 @@ const constructorSlice = createSlice({
     clearConstructor: (state) => {
       state.bun = null;
       state.ingridients = [];
+    },
+    swapIngridients: (state, action: PayloadAction<TSwapProps>) => {
+      const index = action.payload.index;
+      if (action.payload.direction === 'UP')
+        [state.ingridients[index], state.ingridients[index - 1]] = [
+          state.ingridients[index - 1],
+          state.ingridients[index]
+        ];
+      else
+        [state.ingridients[index], state.ingridients[index + 1]] = [
+          state.ingridients[index + 1],
+          state.ingridients[index]
+        ];
     }
   }
 });
 
 export const { constructorBunSelector, constructorIngridientsSelector } =
   constructorSlice.selectors;
-export const { addItem, removeItem, clearConstructor } =
+export const { addItem, removeItem, clearConstructor, swapIngridients } =
   constructorSlice.actions;
 export default constructorSlice.reducer;
