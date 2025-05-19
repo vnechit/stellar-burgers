@@ -26,11 +26,17 @@ const constructorSlice = createSlice({
     constructorIngridientsSelector: (state) => state.ingridients
   },
   reducers: {
-    addItem: (state, action: PayloadAction<TIngredient>) => {
-      if (action.payload.type === 'bun') {
-        state.bun = { ...action.payload, id: uuidv4() };
-      } else {
-        state.ingridients.push({ ...action.payload, id: uuidv4() });
+    addItem: {
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
+        if (action.payload.type === 'bun') {
+          state.bun = action.payload;
+        } else {
+          state.ingridients.push(action.payload);
+        }
+      },
+      prepare(ingredient: TIngredient) {
+        const id = uuidv4();
+        return { payload: { ...ingredient, id } };
       }
     },
     removeItem: (state, action: PayloadAction<TConstructorIngredient>) => {
