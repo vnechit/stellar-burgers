@@ -12,7 +12,7 @@ import feeds from './slices/feedsSlice';
 import user from './slices/userSlice';
 import singleOrder from './slices/singleOrderSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   ingridients,
   burgerConstructor,
   feeds,
