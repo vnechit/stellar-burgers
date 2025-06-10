@@ -1,13 +1,14 @@
-import type {Config} from 'jest';
+import type { Config } from 'jest';
 
 const config: Config = {
   collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '@api': '<rootDir>/src/utils/burger-api.ts'
+    '@api': '<rootDir>/src/utils/burger-api.ts',
+    '@slices': '<rootDir>/src/services/slices'
   },
 
   preset: 'ts-jest',
@@ -60,10 +61,7 @@ const config: Config = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)']
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
