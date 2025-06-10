@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.16% </span>
+                <span class="strong">95.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>57/72</span>
+                <span class='fraction'>69/72</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.16% </span>
+                <span class="strong">95.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>57/72</span>
+                <span class='fraction'>69/72</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -177,28 +177,28 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -217,7 +217,7 @@ interface ISingleOrderState {
   error: string | null;
 }
 &nbsp;
-const initialState: ISingleOrderState = {
+export const initialOrderState: ISingleOrderState = {
   singleOrder: null,
   isOrderLoading: false,
   error: null
@@ -235,7 +235,7 @@ export const postOrder = createAsyncThunk(
 &nbsp;
 const singleOrderSlice = createSlice({
   name: 'singleOrder',
-  initialState,
+  initialState: initialOrderState,
   selectors: {
     isOrderLoadingSelector: <span class="fstat-no" title="function not covered" >(state) =&gt; state.isOrderLoading,</span>
     singleOrderSelector: <span class="fstat-no" title="function not covered" >(state) =&gt; state.singleOrder</span>
@@ -249,28 +249,28 @@ const singleOrderSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(getOrderByNumber.pending, (state) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.isOrderLoading = true;</span>
-<span class="cstat-no" title="statement not covered" >        state.singleOrder = null;</span>
+        state.isOrderLoading = true;
+        state.singleOrder = null;
       })
       .addCase(getOrderByNumber.rejected, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.isOrderLoading = false;</span>
-<span class="cstat-no" title="statement not covered" >        state.error = action.error.message!;</span>
+        state.isOrderLoading = false;
+        state.error = action.error.message!;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.isOrderLoading = false;</span>
-<span class="cstat-no" title="statement not covered" >        state.singleOrder = action.payload.orders[0];</span>
+        state.isOrderLoading = false;
+        state.singleOrder = action.payload.orders[0];
       })
       .addCase(postOrder.pending, (state) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.isOrderLoading = true;</span>
-<span class="cstat-no" title="statement not covered" >        state.singleOrder = null;</span>
+        state.isOrderLoading = true;
+        state.singleOrder = null;
       })
       .addCase(postOrder.rejected, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.isOrderLoading = false;</span>
-<span class="cstat-no" title="statement not covered" >        state.error = action.error.message!;</span>
+        state.isOrderLoading = false;
+        state.error = action.error.message!;
       })
       .addCase(postOrder.fulfilled, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.isOrderLoading = false;</span>
-<span class="cstat-no" title="statement not covered" >        state.singleOrder = action.payload.order;</span>
+        state.isOrderLoading = false;
+        state.singleOrder = action.payload.order;
       });
   }
 });
@@ -286,7 +286,7 @@ export default singleOrderSlice.reducer;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-10T19:40:37.508Z
+                at 2025-06-10T20:00:09.067Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -8,7 +8,7 @@ interface ISingleOrderState {
   error: string | null;
 }
 
-const initialState: ISingleOrderState = {
+export const initialOrderState: ISingleOrderState = {
   singleOrder: null,
   isOrderLoading: false,
   error: null
@@ -26,7 +26,7 @@ export const postOrder = createAsyncThunk(
 
 const singleOrderSlice = createSlice({
   name: 'singleOrder',
-  initialState,
+  initialState: initialOrderState,
   selectors: {
     isOrderLoadingSelector: (state) => state.isOrderLoading,
     singleOrderSelector: (state) => state.singleOrder
