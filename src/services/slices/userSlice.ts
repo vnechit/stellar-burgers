@@ -20,7 +20,7 @@ interface IUserState {
   orders: TOrder[] | null;
 }
 
-const initialState: IUserState = {
+export const initialUserState: IUserState = {
   isLoading: false,
   error: null,
   user: null,
@@ -72,7 +72,7 @@ export const getUserOrders = createAsyncThunk('users/orders', async () =>
 
 const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: initialUserState,
   selectors: {
     userSelector: (state) => state.user,
     isAuthCheckedSelector: (state) => state.isAuthChecked,
