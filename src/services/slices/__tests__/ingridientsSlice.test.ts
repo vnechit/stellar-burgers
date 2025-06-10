@@ -15,12 +15,12 @@ describe('Тестирование ingredientsSlice reducer', () => {
     const newState = reducer(
       initialIngredientsState,
       getIngridients.rejected(
-        new Error('error during getting user orders'),
+        new Error('error during getting ingredients'),
         'rejected'
       )
     );
     expect(newState.isIngridientsLoading).toBeFalsy();
-    expect(newState.error).toEqual('error during getting user orders');
+    expect(newState.error).toEqual('error during getting ingredients');
   });
 
   test('getIngridients.fulfilled', () => {
