@@ -44,15 +44,21 @@ describe('Тестирование конструктора бургеров', (
 
   describe('Работоспособность модальных окон', () => {
     it('Открытие модального окна и закрытие на крестик', () => {
-      cy.get('[data-ingredient="bun"]:first-of-type').click();
+      cy.get('#modals').children().should('have.length', 0);
+      cy.get('[data-cy="643d69a5c3f7b9001cfa093d"]').click();
       cy.wait(1000);
+      cy.get('#modals').children().should('have.length.at.least', 2);
+      cy.get('#modals').contains('h3', 'Флюоресцентная булка R2-D3');
       cy.get('#modals button:first-of-type').click();
       cy.get('#modals').children().should('have.length', 0);
     });
 
     it('Открытие модального окна и закрытие на оверлей', () => {
-      cy.get('[data-ingredient="bun"]:first-of-type').click();
+      cy.get('#modals').children().should('have.length', 0);
+      cy.get('[data-cy="643d69a5c3f7b9001cfa093d"]').click();
       cy.wait(1000);
+      cy.get('#modals').children().should('have.length.at.least', 2);
+      cy.get('#modals').contains('h3', 'Флюоресцентная булка R2-D3');
       cy.get('#modals>div:nth-of-type(2)').click({ force: true });
       cy.get('#modals').children().should('have.length', 0);
     });
@@ -60,9 +66,11 @@ describe('Тестирование конструктора бургеров', (
 
   describe('Работа с ингридиентами и заказом', () => {
     it('Добавление ингредиентов в бургер', () => {
+      cy.get('[data-order-button]').should('be.disabled');
       cy.get('[data-ingredient="bun"]:first-of-type button').click();
       cy.get('[data-ingredient="main"]:first-of-type button').click();
       cy.get('[data-ingredient="sauce"]:first-of-type button').click();
+      cy.get('[data-order-button]').should('be.enabled');
     });
 
     it('Отправка заказа на сервер', () => {
@@ -77,6 +85,7 @@ describe('Тестирование конструктора бургеров', (
       );
       cy.get('#modals button:first-of-type').click();
       cy.get('#modals').children().should('have.length', 0);
+      cy.get('[data-order-button]').should('be.disabled');
     });
   });
 
