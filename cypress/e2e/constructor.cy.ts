@@ -102,8 +102,8 @@ describe('Тестирование конструктора бургеров', (
         order.order.number
       );
 
-      cy.get('[data-cy-no-bread').should('not.exist');
-      cy.get('[data-cy-no-ingredient').should('not.exist');
+      cy.get('[data-cy-no-bread').should('exist');
+      cy.get('[data-cy-no-ingredient').should('exist');
 
       cy.get('#modals button:first-of-type').click();
       cy.get('#modals').children().should('have.length', 0);
