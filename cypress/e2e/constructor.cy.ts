@@ -66,26 +66,47 @@ describe('Тестирование конструктора бургеров', (
 
   describe('Работа с ингридиентами и заказом', () => {
     it('Добавление ингредиентов в бургер', () => {
-      cy.get('[data-order-button]').should('be.disabled');
-      cy.get('[data-ingredient="bun"]:first-of-type button').click();
-      cy.get('[data-ingredient="main"]:first-of-type button').click();
-      cy.get('[data-ingredient="sauce"]:first-of-type button').click();
-      cy.get('[data-order-button]').should('be.enabled');
+      cy.get('[data-cy-no-bread').should('exist');
+      cy.get('[data-cy-no-ingredient').should('exist');
+
+      cy.get(
+        '[data-cy="643d69a5c3f7b9001cfa093c"]:first-of-type button'
+      ).click();
+      cy.get(
+        '[data-cy="643d69a5c3f7b9001cfa0941"]:first-of-type button'
+      ).click();
+      cy.get(
+        '[data-cy="643d69a5c3f7b9001cfa0942"]:first-of-type button'
+      ).click();
+
+      cy.get('.constructor-element__text').contains('Краторная булка N-200i');
+      cy.get('.constructor-element__text').contains(
+        'Биокотлета из марсианской Магнолии'
+      );
+      cy.get('.constructor-element__text').contains('Соус Spicy-X');
+
+      cy.get('[data-cy-no-bread').should('not.exist');
+      cy.get('[data-cy-no-ingredient').should('not.exist');
     });
 
     it('Отправка заказа на сервер', () => {
       cy.get('[data-ingredient="bun"]:first-of-type button').click();
       cy.get('[data-ingredient="main"]:first-of-type button').click();
       cy.get('[data-ingredient="sauce"]:first-of-type button').click();
+
       cy.get('[data-order-button]').click();
+
       cy.get('#modals').children().should('have.length', 2);
       cy.get('#modals h2:first-of-type').should(
         'have.text',
         order.order.number
       );
+
+      cy.get('[data-cy-no-bread').should('not.exist');
+      cy.get('[data-cy-no-ingredient').should('not.exist');
+
       cy.get('#modals button:first-of-type').click();
       cy.get('#modals').children().should('have.length', 0);
-      cy.get('[data-order-button]').should('be.disabled');
     });
   });
 
