@@ -8,7 +8,7 @@ interface IIngridientState {
   error: string | null;
 }
 
-const initialState: IIngridientState = {
+export const initialIngredientsState: IIngridientState = {
   ingridients: [],
   isIngridientsLoading: false,
   error: null
@@ -21,7 +21,7 @@ export const getIngridients = createAsyncThunk(
 
 const ingridientsSlice = createSlice({
   name: 'ingridients',
-  initialState,
+  initialState: initialIngredientsState,
   selectors: {
     ingridientsSelector: (state) => state.ingridients,
     ingridientsLoadingSelector: (state) => state.isIngridientsLoading

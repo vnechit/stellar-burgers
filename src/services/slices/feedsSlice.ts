@@ -7,7 +7,7 @@ interface IFeedsState {
   error: string | null;
 }
 
-const initialState: IFeedsState & TOrdersData = {
+export const initialFeedsState: IFeedsState & TOrdersData = {
   orders: [],
   total: 0,
   totalToday: 0,
@@ -21,7 +21,7 @@ export const getFeeds = createAsyncThunk('feeds/getFeeds', async () =>
 
 const feedsSlice = createSlice({
   name: 'feeds',
-  initialState,
+  initialState: initialFeedsState,
   selectors: {
     isFeedsLoadingSelector: (state) => state.isFeedsLoading,
     ordersSelector: (state) => state.orders,

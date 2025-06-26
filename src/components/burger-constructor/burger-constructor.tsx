@@ -37,11 +37,12 @@ export const BurgerConstructor: FC = () => {
         ...constructorItems.ingredients.map((item) => item._id),
         constructorItems.bun?._id
       ])
-    );
+    ).then((item) => {
+      dispatch(clearConstructor());
+    });
   };
   const closeOrderModal = () => {
     navigate('/');
-    dispatch(clearConstructor());
     dispatch(clearSingleOrderState());
   };
 
